@@ -32,7 +32,7 @@ func checkHistoryCache() *[]Results {
 	}
 }
 
-func cacheDate(results *[]Results) error {
+func cacheData(results *[]Results) error {
 	err := redisCli.Set(historyKey, results, expireTime*time.Second).Err()
 	return err
 }

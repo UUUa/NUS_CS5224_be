@@ -5,11 +5,16 @@ import (
 	"net/http"
 )
 
+var (
+	config = &Config{}
+)
+
 func main() {
-	if err := InitDB(dbURL, dbName); err != nil {
+	InitConfig()
+	if err := InitDB(config.dbURL, config.dbName); err != nil {
 		panic("Failed to init mongo db")
 	}
-	if err := InitRedis(redisAddr); err != nil {
+	if err := InitRedis(config.redisAddr); err != nil {
 		panic("Failed to init mongo db")
 	}
 	http.HandleFunc("/", HelloWorld) // 设置访问的路由

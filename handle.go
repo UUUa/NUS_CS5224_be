@@ -118,8 +118,6 @@ func ScanURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// read cache
-
 	result, err := getResult(scanParam.Url)
 	if err == nil {
 		jsonResult, _ := json.Marshal(result)
@@ -229,7 +227,7 @@ func GetHistory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data, _ = getAllData()
-	cacheDate(data)
+	cacheData(data)
 
 	jsonData, _ := json.Marshal(data)
 	w.Write(jsonData)
