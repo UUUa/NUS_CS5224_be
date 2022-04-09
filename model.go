@@ -27,7 +27,7 @@ type ScanURLAPIResultResultParam struct {
 
 type ResultDetail struct {
 	Category string `json:"category"`
-	Result   string `json:"result"`
+	//Result   string `json:"result"`
 }
 
 type Results struct {
@@ -98,4 +98,3 @@ func saveResult(param *GetReportAPIResultResultParam) error {
 	_, err := dataBase.Collection(resultTable).InsertOne(context.Background(), param.Data.Attributes.Results)
 	return err
 }
-

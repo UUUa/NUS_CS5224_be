@@ -220,16 +220,35 @@ func getReport(reportID string) (*GetReportAPIResultResultParam, error) {
 }
 
 func GetHistory(w http.ResponseWriter, r *http.Request) {
-	data := checkHistoryCache()
-	if data != nil {
-		jsonData, _ := json.Marshal(data)
-		w.Write(jsonData)
-		return
-	}
-	data, _ = getAllData()
-	cacheData(data)
+	data := &[]Results{}
+	data = checkHistoryCache()
 
-	jsonData, _ := json.Marshal(data)
-	w.Write(jsonData)
+	if data == nil {
+		data, _ = getAllData()
+		cacheData(data)
+	}
+	harmLess := true
+	for _, result := range *data {
+		if result.GoogleSafe.Category != harmlessStr {
+			harmLess = false
+		}
+		if result.Fortinet.Category != harmlessStr {
+			harmLess = false
+		}
+		if result.SecureBrain.Category != harmlessStr {
+			harmLess = false
+		}
+		if result.WebGuard.Category != harmlessStr {
+			harmLess = false
+		}
+		if result.Tencent.Category != harmlessStr {
+			harmLess = false
+		}
+	}
+	if harmLess {
+		w.Write([]byte(harmlessResult))
+	} else {
+		w.Write([]byte(notHarmlessResult))
+	}
 	return
 }
